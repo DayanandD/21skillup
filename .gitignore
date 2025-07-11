@@ -137,3 +137,22 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+#maven
+.mvn/
+
+# gradle
+.gradle/
+
+# IntelliJ IDEA
+.idea/
+
+# JetBrains Rider
+.idea/
+
+# JetBrains CLion
+.idea/
+# JetBrains WebStorm
+.idea/
+#spring
+.spring/

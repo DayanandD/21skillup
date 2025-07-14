@@ -1,15 +1,15 @@
 import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
-import { Home, People, School, Dashboard } from "@mui/icons-material";
-import { Link, useLocation } from "react-router-dom";
+import { Dashboard, People, School, MenuBook } from "@mui/icons-material";
+import { useLocation, Link } from "react-router-dom";
 
 const drawerWidthOpen = 240;
 const drawerWidthClosed = 72;
 
 const navItems = [
-  { text: "Dashboard", icon: <Dashboard />, path: "/admin-dashboard" },
-  { text: "Users", icon: <People />, path: "/user" },
-  { text: "Topics", icon: <School />, path: "/topic" },
-  { text: "Modules", icon: <Home />, path: "/client" },
+  { text: "Dashboard", icon: <Dashboard />, path: "/" },
+  { text: "Modules", icon: <MenuBook />, path: "/modules" },
+  { text: "Topics", icon: <School />, path: "/topics" },
+  { text: "Users", icon: <People />, path: "/users" },
 ];
 
 const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
@@ -20,13 +20,11 @@ const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
       variant="permanent"
       sx={{
         width: isOpen ? drawerWidthOpen : drawerWidthClosed,
-        flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
           width: isOpen ? drawerWidthOpen : drawerWidthClosed,
-          transition: "width 0.3s ease",
+          transition: "0.3s",
           overflowX: "hidden",
-          boxSizing: "border-box",
-          backgroundColor: "#1f2937", // Tailwind gray-800
+          backgroundColor: "#1f2937",
           color: "#fff",
         },
       }}
@@ -34,20 +32,16 @@ const Sidebar = ({ isOpen }: { isOpen: boolean }) => {
       <List>
         {navItems.map(({ text, icon, path }) => {
           const isActive = location.pathname === path;
-
           return (
-            <Tooltip key={text} title={!isOpen ? text : ""} placement="right">
+            <Tooltip title={!isOpen ? text : ""} placement="right" key={text}>
               <ListItemButton
                 component={Link}
                 to={path}
                 selected={isActive}
                 sx={{
                   justifyContent: isOpen ? "initial" : "center",
-                  px: 2.5,
-                  color: isActive ? "#4ade80" : "#ffffffcc", // Tailwind green-400 if active
-                  "&:hover": {
-                    backgroundColor: "#374151", // gray-700
-                  },
+                  color: isActive ? "#4ade80" : "#ffffffcc",
+                  "&:hover": { backgroundColor: "#374151" },
                 }}
               >
                 <ListItemIcon

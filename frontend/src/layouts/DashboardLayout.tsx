@@ -1,39 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
+import { Box, Toolbar } from "@mui/material";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  useEffect(() => {
-    // Optional: Save sidebar state to localStorage
-  }, [isSidebarOpen]);
-
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      {/* Navbar with toggle button */}
-      <Navbar toggleSidebar={toggleSidebar} />
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Navbar toggleSidebar={() => setIsSidebarOpen((prev) => !prev)} />
 
-      <div className="flex flex-1">
-        {/* Collapsible Sidebar */}
+      <Box sx={{ display: "flex", flexGrow: 1 }}>
         <Sidebar isOpen={isSidebarOpen} />
-
-        {/* Main content area */}
-        <main
-          className={`transition-all duration-300 ease-in-out ${
-            isSidebarOpen ? "ml-[240px]" : "ml-[72px]"
-          } w-full p-6`}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            ml: isSidebarOpen ? "0px" : "1px",
+            transition: "margin 0.3s",
+          }}
         >
+          <Toolbar />
           {children}
-        </main>
-      </div>
+        </Box>
+      </Box>
 
-      {/* Footer */}
       <Footer />
-    </div>
+    </Box>
   );
 };
 

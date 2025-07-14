@@ -34,6 +34,17 @@ public class LearningModule {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+@Column(name = "time_spent")
+private int timeSpent;
+
+public int getTimeSpent() {
+    return timeSpent;
+}
+
+public void setTimeSpent(int timeSpent) {
+    this.timeSpent = timeSpent;
+}
+
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Topic> topics;

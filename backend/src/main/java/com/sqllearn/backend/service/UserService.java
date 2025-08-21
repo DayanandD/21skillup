@@ -2,28 +2,41 @@ package com.sqllearn.backend.service;
 
 import com.sqllearn.backend.model.User;
 import com.sqllearn.backend.repository.UserRepository;
+import com.sqllearn.dto.CreateUserRequest;
+import com.sqllearn.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-    @Autowired private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    @Autowired
+    private UserRepository userRepository;
+
+    public UserDTO createUser(CreateUserRequest request) {
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPasswordHash(request.getPassword()); // Encrypt in real apps
+        user.setRole(request.getRole() != null ? request.getRole() : "LEARNER");
+
+        User saved = userRepository.save(user);
+
+        return mapToDTO(saved);
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public Optional<UserDTO> getUserByEmail(String email) {
+        return userRepository.findByEmail(email).map(this::mapToDTO);
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    private UserDTO mapToDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setUserId(user.getUserId());
+        dto.setName(user.getName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        dto.setCreatedAt(user.getCreatedAt());
+        return dto;
     }
 }
